@@ -1,0 +1,35 @@
+[Description]
+default description
+[Components names]
+[(0, 'testGetReturnsFirstValue'), (1, 'run'), (2, 'access$000'), (3, 'get'), (4, 'expireEntries'), (5, 'now'), (6, 'empty'), (7, 'loadAndGet'), (8, 'call'), (9, 'getValue'), (10, 'isPresent'), (11, 'ofNullable'), (12, 'of'), (13, 'waitAndGet'), (14, 'setUp'), (15, 'testGetReturnsSameValue'), (16, 'testInvalidateDuringCallableExecution'), (17, 'expireEntriesAtTime'), (18, 'getWriteTime'), (19, 'invalidate'), (20, 'testExpireOnWritePerKey'), (21, 'testExpireOnWrite'), (22, 'testGet'), (23, 'testInvalidate'), (24, 'testConcurrentLoadWaitAndGet'), (25, 'testLoadAndGet'), (26, 'testWaitAndGetOnPreviouslyLoadedValue'), (27, 'testCallOnSameThread'), (28, 'block'), (29, 'allocate'), (30, 'isHeldByCurrentThread'), (31, 'lock'), (32, 'addSleeper'), (33, 'release'), (34, 'getSleeper'), (35, 'await'), (36, 'removeSleeper'), (37, 'recycle'), (38, 'unlock'), (39, 'testMultipleCalls'), (40, 'apiCall'), (41, 'signal'), (42, 'close'), (43, 'testNoTimeout'), (44, 'testRaceConditions'), (45, 'testTimeout'), (46, 'toString'), (47, 'testEmpty'), (48, 'testEqualsCornerCases'), (49, 'equals'), (50, 'testEquals'), (51, 'testOfNullable'), (52, 'testOfNull'), (53, 'testOfRandom'), (54, 'testOf'), (55, 'testOrElse'), (56, 'orElse')]
+[Priors]
+[0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1]
+[Bugs]
+[0]
+[InitialTests]
+['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12', 'T13', 'T14', 'T15', 'T16', 'T17', 'T18', 'T19', 'T20', 'T21', 'T22', 'T23', 'T24']
+[TestDetails]
+T1;[0, 1, 2, 3, 4, 5, 6, 7, 8, 1, 9, 10, 11, 12, 3, 13, 14];0
+T2;[15, 1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 10, 3, 9, 14];0
+T3;[16, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 3, 13, 17, 18, 19, 8, 14];0
+T4;[20, 3, 4, 5, 6, 7, 8, 11, 12, 10, 3, 17, 18, 19];0
+T5;[21, 3, 4, 5, 6, 7, 8, 11, 12, 10, 3, 17, 18, 9, 19, 14];0
+T6;[22, 3, 4, 5, 6, 7, 8, 11, 12, 10, 3, 9, 14];0
+T7;[23, 3, 4, 5, 6, 7, 8, 11, 12, 10, 3, 19, 14];0
+T8;[24, 6, 7, 8, 11, 12, 5, 10, 3, 1, 13, 9];0
+T9;[25, 6, 9, 10, 7, 8, 11, 12, 5, 3];0
+T10;[26, 6, 7, 8, 11, 12, 5, 10, 3, 13];0
+T11;[27, 28, 29, 30, 31, 32, 8, 33, 34, 35, 36, 37, 38];0
+T12;[39, 8, 40, 28, 29, 30, 31, 32, 8, 35, 8, 33, 34, 41, 38, 36, 37, 42];0
+T13;[43, 40, 28, 29, 30, 31, 32, 8, 35, 8, 33, 34, 41, 38, 36, 37, 42];0
+T14;[44, 8, 40, 28, 29, 30, 31, 32, 8, 35, 8, 33, 34, 41, 38, 36, 37, 42];0
+T15;[45, 40, 28, 29, 30, 31, 32, 8, 35, 8, 36, 37, 38, 42, 33, 34, 46];0
+T16;[47, 6, 10];0
+T17;[48, 12, 49, 6];0
+T18;[50, 6, 49, 11, 12];0
+T19;[51, 11, 6, 10, 12, 3];0
+T20;[52, 12];0
+T21;[53, 12, 3];0
+T22;[54, 12, 10];0
+T23;[55, 6, 56, 10, 12, 3];0
+T24;[43, 35, 8, 2, 8, 41, 8];0
