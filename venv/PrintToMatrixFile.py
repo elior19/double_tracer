@@ -31,9 +31,11 @@ class PrintToMatrixFile:
         return initional_test_for_file, testsNamesWithNumbers
 
     def findIndexOfTestNameByTestIndex(self, testsNamesWithNumbers, testIndex):
-        for i in range(len(testsNamesWithNumbers)):
-            if testsNamesWithNumbers[i]['testNumber'] is testIndex:
-                return i
+        for idx in range(len(testsNamesWithNumbers)):
+            testName = testsNamesWithNumbers[idx]['testNumber']
+            testNumber = testName.split('T')[1]
+            if int(testNumber) is int(testIndex):
+                return idx
         # if index does not exist return 0 (change to -1...)
         return 0
 
@@ -55,18 +57,10 @@ class PrintToMatrixFile:
 
     def printTestDetails(self, file, test_table, initional_test_for_file, testsNamesWithNumbers, testsResults):
         # this function print to the file and not calculate like all the functions because we want to print \n before each line
-        f = open('ttt.txt', 'w')
-        f.write("[")
         for index in range(len(test_table)):
             testResult = self.findTestResult(testsResults, testsNamesWithNumbers, index)
             file.write(initional_test_for_file[index] + ';' + str(test_table[index]['table']) + ';' + testResult)
             file.write('\n')
-            f.write(str(test_table[index]['table']) + ",")
-        f.write("]")
-        f.write('\n\n\n')
-        for index in range(len(test_table)):
-            f.write("1,")
-        f.close()
         
     def printToFile(self, componane_names, test_table, testsResults):
         f = open('out.txt', 'w')
@@ -86,7 +80,7 @@ class PrintToMatrixFile:
         f.write('[InitialTests]\n')
         initional_test_for_file, testsNamesWithNumbers = self.printInitialTests(test_table, testsResults)
         f.write(str(initional_test_for_file) + '\n')
-        
+
         f.write('[TestDetails]\n')
         self.printTestDetails(f, test_table, initional_test_for_file, testsNamesWithNumbers, testsResults)
 

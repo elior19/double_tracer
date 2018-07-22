@@ -21,9 +21,9 @@ class readTestsResults:
     def checkTestStatus(self, numberOfErrors, numberOfFailures):
         # check if were failures or errors somewere
         if numberOfErrors > 0 or numberOfFailures > 0:
-            ans = 0
+            ans = 1 #1
         else:
-            ans = 1
+            ans = 0
         return ans
 
     def calculateTestName(self, fileName):
@@ -32,13 +32,23 @@ class readTestsResults:
         return testName
 
     def readFromFile(self):
-        path = '../../../Documents/accumulo-master/accumulo-master/core/target/surefire-reports'
+        # path = '../../../Documents/accumulo-master/surfire-reports'
+        # path = '../../../Documents/reef-master/reef-master/lang/java/reef-utils/target/surefire-reports'
+        # path = '../../../Documents/tika-master/tika-master/tika-server/target/surefire-reports'
+        path = '../../../Documents/ant-master/ant-master/target/ant/surefire-reports'
+    
+
         tests = []
         for fileName in os.listdir(path):
             if fileName.endswith('.xml'):
                 testData = self.readTestData(fileName, path)
                 numberOfErrors, numberOfFailures = self.calculateNumberOfErrorsAndFailures(testData)
                 testStatus = self.checkTestStatus(numberOfErrors, numberOfFailures)
+
                 testName = self.calculateTestName(fileName)
                 tests.append({'testName': testName, 'testStatus': testStatus})
+        # print(tests)
+        # print("\n")
+                # print(testName)
+                # print(testStatus)
         return tests
