@@ -9,3 +9,5 @@
 5. הרץ את SFL-diagnoser על הפלט של סעיף 4.
 
 *הסבר מפורט יותר על האלגוריתם נמצא במצגת המצורפת
+
+the foder 'final results files on real data' contain the input and the output files of sfl-diagnoser run for the single component version (the original) and for the triplet version.
