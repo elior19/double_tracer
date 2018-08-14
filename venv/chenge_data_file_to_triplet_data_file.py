@@ -4,11 +4,43 @@ priors = []
 bugs = []
 name_of_test = []
 function_in_test = []
-result_of_test =[]
+result_of_test = []
 initialtests = ""
-start_test =0
+start_test = 0
 
-fileName = 'CVE-2016-10272'
+countSingle = 0
+countDouble = 0
+countTriplet = 0
+countOldBugs = 0
+
+# dominators
+# fileName = 'CVE-2017-7623'
+# fileName = 'CVE-2017-7939'
+# fileName = 'CVE-2017-9204'
+# fileName = 'CVE-2017-9205'
+# fileName = 'CVE-2017-9206'
+# fileName = 'CVE-2017-9207'
+
+# xrefs
+# fileName = 'CVE-2015-8784'
+# fileName = 'CVE-2016-8691'
+# fileName = 'CVE-2016-8692'
+# fileName = 'CVE-2016-8887'
+# fileName = 'CVE-2016-10250'
+# fileName = 'CVE-2016-10251'
+# fileName = 'CVE-2016-10271'
+# fileName = 'CVE-2016-10272'
+# fileName = 'CVE-2017-7452'
+# fileName = 'CVE-2017-7453'
+# fileName = 'CVE-2017-7454'
+# fileName = 'CVE-2017-7623'
+# fileName = 'CVE-2017-7939'
+# fileName = 'CVE-2017-7962'
+# fileName = 'CVE-2017-9204'
+# fileName = 'CVE-2017-9205'
+# fileName = 'CVE-2017-9206'
+fileName = 'CVE-2017-9207'
+
 
 pathLittle = '../../../Desktop/matrices/dominators/'
 pathBig = '../../../Desktop/matrices/xrefs/'
@@ -25,6 +57,7 @@ with open(pathBig + fileName + '.txt') as f:
             for p in pre_component:
                 new_p = p.split(', ')
                 component.append(str(new_p[1].split("'")[1]))
+            countSingle = len(component)
         elif(lines[i] == '[Priors]'):
             pre_priors = lines[i+1].split(', ')
             for p in range(len(pre_priors)):
@@ -43,6 +76,7 @@ with open(pathBig + fileName + '.txt') as f:
                     bugs.append(int(pre_bugs[p].split(']')[0]))
                 else:
                     bugs.append(int(pre_bugs[p]))
+                countOldBugs = countOldBugs + 1
         elif(lines[i]=='[InitialTests]'):
             initialtests = lines[i+1]
         elif(lines[i]=='[TestDetails]'):
@@ -71,6 +105,7 @@ with open(pathBig + fileName + '.txt') as f:
                 function_in_test[start_test].append(component.index(str1))
             else:
                 component.append(str1)
+                countDouble = countDouble + 1
                 priors.append(0.1)
                 function_in_test[start_test].append(component.index(str1))
             if(((function_in_test[start_test][i2] in bugs) or (function_in_test[start_test][i2+1] in bugs)) and (component.index(str1) not in bugs)):
@@ -82,6 +117,7 @@ with open(pathBig + fileName + '.txt') as f:
                 
             else:
                 component.append(str1)
+                countTriplet = countTriplet + 1
                 function_in_test[start_test].append(component.index(str1))
             if(((function_in_test[start_test][i3] in bugs) or (function_in_test[start_test][i3+1] in bugs) or (function_in_test[start_test][i3+2] in bugs)) and (component.index(str1) not in bugs)):
                     bugs.append(component.index(str1))
@@ -105,9 +141,16 @@ write_file.write('[Description]\n')
 write_file.write(description+'\n')
 write_file.write('[Components names]\n')
 write_file.write(str(new_component)+'\n')
+print("single component: " + str(countSingle))
+print("double component: " + str(countDouble))
+print("triplet component: " + str(countTriplet))
+sum = countSingle + countDouble + countTriplet
+print("all component: " + str(len(component)) + " = " + str(sum))
 write_file.write('[Priors]\n')
 write_file.write(str(priors)+'\n')
 write_file.write('[Bugs]\n')
+print("old bugs: " + str(countOldBugs))
+print("bugs: " + str(len(bugs)))
 write_file.write(str(bugs)+'\n')
 write_file.write('[InitialTests]\n')
 write_file.write(str(initialtests)+'\n')
