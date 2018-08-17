@@ -7,11 +7,17 @@ function_in_test = []
 result_of_test = []
 initialtests = ""
 start_test = 0
+new_component = []
+componentNumber = 0
 
 countSingle = 0
 countDouble = 0
 countTriplet = 0
 countOldBugs = 0
+countDoubleBugs = 0
+countTripletBugs = 0
+doubleComponents = []
+tripletComponents = []
 
 # dominators
 # fileName = 'CVE-2017-7623'
@@ -58,6 +64,10 @@ with open(pathBig + fileName + '.txt') as f:
                 new_p = p.split(', ')
                 component.append(str(new_p[1].split("'")[1]))
             countSingle = len(component)
+            componentNumber = len(component)
+            for k in range(len(component)):
+                tmp = (k, component[k])
+                new_component.append(tmp)
         elif(lines[i] == '[Priors]'):
             pre_priors = lines[i+1].split(', ')
             for p in range(len(pre_priors)):
@@ -105,28 +115,46 @@ with open(pathBig + fileName + '.txt') as f:
                 function_in_test[start_test].append(component.index(str1))
             else:
                 component.append(str1)
+                # print(componentNumber)
+                tmp = (componentNumber, str1)
+                new_component.append(tmp)
+                doubleComponents.append(componentNumber)
+                componentNumber = componentNumber + 1
                 countDouble = countDouble + 1
                 priors.append(0.1)
                 function_in_test[start_test].append(component.index(str1))
             if(((function_in_test[start_test][i2] in bugs) or (function_in_test[start_test][i2+1] in bugs)) and (component.index(str1) not in bugs)):
                     bugs.append(component.index(str1))
+                    countDoubleBugs = countDoubleBugs +1
+
+
         for i3 in range(len_list-2):
             str1 = component[function_in_test[start_test][i3]]+"_"+component[function_in_test[start_test][i3+1]]+"_"+component[function_in_test[start_test][i3+2]]
             if (str1 in component):
                 function_in_test[start_test].append(component.index(str1))
-                
+
             else:
                 component.append(str1)
+                # print(componentNumber)
+                tmp = (componentNumber, str1)
+                new_component.append(tmp)
+                tripletComponents.append(componentNumber)
+                componentNumber = componentNumber + 1
                 countTriplet = countTriplet + 1
                 function_in_test[start_test].append(component.index(str1))
             if(((function_in_test[start_test][i3] in bugs) or (function_in_test[start_test][i3+1] in bugs) or (function_in_test[start_test][i3+2] in bugs)) and (component.index(str1) not in bugs)):
                     bugs.append(component.index(str1))
+                    countTripletBugs = countTripletBugs + 1
+
+
         start_test = start_test+1
 
-    new_component = []
-    for i in range(len(component)):
-        tmp = (i, component[i])
-        new_component.append(tmp)
+
+
+    # new_component = []
+    # for i in range(len(component)):
+    #     tmp = (i, component[i])
+    #     new_component.append(tmp)
 
     
 
@@ -139,6 +167,7 @@ write_file = open(directoryPathBig + fileName + '-transformed.txt','w')
 
 write_file.write('[Description]\n')
 write_file.write(description+'\n')
+
 write_file.write('[Components names]\n')
 write_file.write(str(new_component)+'\n')
 print("single component: " + str(countSingle))
@@ -146,17 +175,40 @@ print("double component: " + str(countDouble))
 print("triplet component: " + str(countTriplet))
 sum = countSingle + countDouble + countTriplet
 print("all component: " + str(len(component)) + " = " + str(sum))
+
 write_file.write('[Priors]\n')
 write_file.write(str(priors)+'\n')
+
 write_file.write('[Bugs]\n')
 print("old bugs: " + str(countOldBugs))
 print("bugs: " + str(len(bugs)))
+print("count double bugs: " + str(countDoubleBugs))
+print("count triplet bugs: " + str(countTripletBugs))
 write_file.write(str(bugs)+'\n')
+
 write_file.write('[InitialTests]\n')
 write_file.write(str(initialtests)+'\n')
+
 write_file.write('[TestDetails]\n')
 for i in range(len(function_in_test)):
  
     write_file.write(name_of_test[i]+";"+str(function_in_test[i])+';'+str(result_of_test[i])+'\n')
 write_file.close()
 
+
+######## this code for calculating diagnosis size #########
+
+
+directoryPathLittle = 'matrix-sizes/dominators/'
+directoryPathBig = 'matrix-sizes/xrefs/'
+
+# components_file = open(directoryPathLittle + fileName + '-transformed-components.txt','w')
+components_file = open(directoryPathBig + fileName + '-transformed-components.txt','w')
+
+components_file.write("double_components:\n")
+components_file.write(str(doubleComponents))
+
+components_file.write("\ntriplet_components:\n")
+components_file.write(str(tripletComponents))
+
+components_file.close()
